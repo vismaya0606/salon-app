@@ -440,8 +440,8 @@ export default function App() {
       <h2 style={{ color:"#3d2b0e", fontSize:"1.1rem", fontWeight:700 }}>Admin Access</h2>
       <p style={g.muted}>Enter your 4-digit PIN</p>
     </div>
-    <PinPad pin={adminPin} setPin={setAdminPin} error={pinError} onSubmit={()=>{
-      if (adminPin===ADMIN_PIN) { setAdminAuthed(true); setPinError(false); }
+    <PinPad pin={adminPin} setPin={setAdminPin} error={pinError} onSubmit={(enteredPin)=>{
+      if (enteredPin===ADMIN_PIN) { setAdminAuthed(true); setPinError(false); }
       else { setPinError(true); setAdminPin(""); setTimeout(()=>setPinError(false),900); }
     }}/>
     <Btn onClick={()=>goto("owner")} secondary style={{ marginTop:14 }}>← Back</Btn>
@@ -667,7 +667,7 @@ function PinPad({ pin, setPin, error, onSubmit }) {
       </div>
       <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:9 }}>
         {[1,2,3,4,5,6,7,8,9,"",0,"⌫"].map((k,i)=>(
-          <button key={i} onClick={()=>{ if(k==="") return; if(k==="⌫"){setPin(p=>p.slice(0,-1));return;} const np=pin+k; setPin(np); if(np.length===4) setTimeout(()=>onSubmit(),100); }}
+          <button key={i} onClick={()=>{ if(k==="") return; if(k==="⌫"){setPin(p=>p.slice(0,-1));return;} const np=pin+k; setPin(np); if(np.length===4) setTimeout(()=>onSubmit(np),100); }}
             style={{ padding:"15px",borderRadius:11,border:"1px solid #e4d8c4",background:k===""?"transparent":"#fff9f2",color:"#3d2b0e",fontSize:"1.15rem",fontWeight:700,cursor:k===""?"default":"pointer",fontFamily:"inherit",animation:error?"shake .3s ease":"none" }}>
             {k}
           </button>
